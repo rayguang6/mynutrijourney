@@ -38,7 +38,7 @@ class _WeightHeightScreenState extends State<WeightHeightScreen> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, userProvider, _) {
       
-      final User user = userProvider.getUser;
+      final User? user = userProvider.getUser;
 
       return Scaffold(
         body: Padding(
@@ -157,8 +157,8 @@ class _WeightHeightScreenState extends State<WeightHeightScreen> {
                   try {
                     final userDocRef = FirebaseFirestore.instance
                         .collection('users')
-                        .doc(user.email);
-                    print("curr sett pref   " + user.email);
+                        .doc(user?.email);
+                    print("curr sett pref   " + user!.email);
                     await userDocRef.update({
                       'weight': weight.round(),
                       'height': height.round(),

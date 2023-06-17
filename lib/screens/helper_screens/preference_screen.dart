@@ -37,7 +37,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, userProvider, _) {
-      final User user = userProvider.getUser;
+      final User? user = userProvider.getUser;
       return Scaffold(
         appBar: AppBar(
           title: const Text('Meal Preferences'),
@@ -84,7 +84,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
                   try {
                     final userDocRef = FirebaseFirestore.instance
                         .collection('users')
-                        .doc(user.email);
+                        .doc(user?.email);
                         
                     // print("curr sett pref   " + user.email);
 

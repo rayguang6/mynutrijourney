@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mynutrijourney/screens/helper_screens/preference_screen.dart';
 import 'package:mynutrijourney/screens/helper_screens/weight_height.dart';
 import 'package:mynutrijourney/screens/profile_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../../models/user.dart';
+import '../../providers/user_provider.dart';
 import '../../utils/constants.dart';
 import '../community_screen.dart';
 import '../dashboard_screen.dart';
@@ -24,7 +27,7 @@ class _MobileScreenState extends State<MobileScreen> {
   List<Widget> pages = [
     //  WeightHeightScreen(),
     //  PreferenceScreen(),
-    const DashboardScreen(),
+    DashboardScreen(),
     const PlannerScreen(),
     const RecipeScreen(),
     const CommunityScreen()
@@ -38,31 +41,45 @@ class _MobileScreenState extends State<MobileScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const Text(
-          'Nutri Journey!',
-          style: TextStyle(color: kPrimaryGreen),
+    final User? user = Provider.of<UserProvider>(context).getUser;
+    
+    if (user == null || user.uid.isEmpty ) {
+      // User data is not available yet, display a loading indicator or handle the null case
+      return Scaffold(
+        appBar: AppBar(
         ),
-        iconTheme: const IconThemeData(color: kPrimaryGreen),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: () {
-               Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProfileScreen(),
-                ),
-              );
-            },
-          ),
-        ],
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    
+    return Scaffold(
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.transparent,
+      //   title: const Text(
+      //     'Nutri Journey!',
+      //     style: TextStyle(color: kPrimaryGreen),
+      //   ),
+      //   iconTheme: const IconThemeData(color: kPrimaryGreen),
+      //   actions: [
+      //     GestureDetector(
+      //       onTap: () {
+      //         // Handle the profile image click
+      //         // Example: Navigate to profile screen
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(builder: (context) => ProfileScreen()),
+      //         );
+      //       },
+      //       child: CircleAvatar(
+      //         backgroundImage: NetworkImage(user.profileImage), // Replace with your profile image
+      //       ),
+      //     ),
+      //   ],
         
-      ),
+      // ),
 
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
