@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "426461717287",
+    "project_id": "mynutrijourney-a4a38",
+    "storage_bucket": "mynutrijourney-a4a38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426461717287:android:2b0352a9a576e800033f02",
+        "android_client_info": {
+          "package_name": "com.mynutrijourney.mynutrijourney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426461717287-fnjsia0t9tcttmsd9j6kgp5509c7igob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBo3v3RT_y76ZL-MWNOr15P6L-48egpK_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426461717287-fnjsia0t9tcttmsd9j6kgp5509c7igob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

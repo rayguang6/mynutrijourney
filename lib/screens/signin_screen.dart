@@ -1,0 +1,161 @@
+import 'package:flutter/material.dart';
+import 'package:mynutrijourney/screens/responsive/mobile_screen.dart';
+import 'package:mynutrijourney/screens/responsive/responsive_screen.dart';
+import 'package:mynutrijourney/screens/responsive/web_screen.dart';
+import 'package:mynutrijourney/screens/signup_screen.dart';
+import 'package:mynutrijourney/services/auth_service.dart';
+import 'package:mynutrijourney/utils/constants.dart';
+import 'package:mynutrijourney/widgets/text_input.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user_provider.dart';
+import '../utils/utils.dart';
+
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
+  
+  @override
+  State<SignInScreen> createState() => SignInState();
+}
+
+class SignInState extends State<SignInScreen> {
+  //create text editing controller to get the inputfield from user
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading =
+      false; // to control the state and show the loading indicator
+
+  //method to destroy the controller
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void signInUser() async {
+    setState(() {
+      _isLoading = true;
+    }); // first, show the loading indicator
+
+    String response = await AuthService().signIn(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+
+    if (response == "success") {
+      await Provider.of<UserProvider>(context, listen: false).setUser();
+
+      Navigator.pop(context);
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveScreen(
+            mobileScreen: MobileScreen(),
+            webScreen: WebScreen(),
+          ),
+        ),(route) => false);
+      // showSnackBar(context, response);
+      setState(() {
+        // Provider.of<UserProvider>(context, listen: false).setUser(); // trigger auth state change
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      showSnackBar(context, response);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 16),
+                Image.asset(
+                  'assets/images/vertical_logo.png',
+                  height: 200,
+                ),
+                const SizedBox(height: 32),
+                TextInputField(
+                  hintText: 'Enter Your Email',
+                  textInputType: TextInputType.emailAddress,
+                  textEditingController: _emailController,
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    hintText: "Enter Your Password",
+                    border: OutlineInputBorder(
+                        borderSide: Divider.createBorderSide(context)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: Divider.createBorderSide(context)),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: Divider.createBorderSide(context)),
+                    filled: true,
+                    contentPadding: const EdgeInsets.all(8),
+                  ),
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                ),
+                const SizedBox(height: 24),
+                InkWell(
+                  onTap: signInUser,
+                  child: Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: const ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                      color: kPrimaryGreen,
+                    ),
+                    child: !_isLoading
+                        ? const Text(
+                            'Sign in',
+                            style: TextStyle(color: Colors.white),
+                          )
+                        : const CircularProgressIndicator(
+                            color: kWhite,
+                          ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text('Don\'t have an account yet?'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        ' Signup.',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
