@@ -39,9 +39,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    ErrorWidget.builder = (FlutterErrorDetails details) => Container(
-      child: Scaffold(body: Center(child: Image.asset('assets/images/vertical_logo.png'),),),
-    );
+    // ErrorWidget.builder = (FlutterErrorDetails details) => Container(
+    //   child: Scaffold(body: Center(child: Image.asset('assets/images/vertical_logo.png'),),),
+    // );
 
     return MultiProvider(
       providers: [

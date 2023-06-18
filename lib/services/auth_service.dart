@@ -102,6 +102,6 @@ class AuthService {
 
   Future<void> signOut(BuildContext context) async {
     await _firebaseauth.signOut();
-    Provider.of<UserProvider>(context, listen: false).clearUser();
+    // Provider.of<UserProvider>(context, listen: false).clearUser();
   }
 }

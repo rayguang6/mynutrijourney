@@ -8,7 +8,7 @@ class UserProvider extends ChangeNotifier {
   User? _user;
   final AuthService _authService = AuthService();
 
-  User? get getUser => _user!;
+  User get getUser => _user!;
   // User? get getUser => _user;
 
   // Future<void> setUser() async {

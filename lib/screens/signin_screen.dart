@@ -51,8 +51,6 @@ class SignInState extends State<SignInScreen> {
 
     User? user = Provider.of<UserProvider>(context, listen: false).getUser;
 
-    Timer(Duration(seconds: 0), () async {
-      print("#######################Delay Called from timer");
       setState(() {
         _isLoading = false;
       });
@@ -69,7 +67,6 @@ class SignInState extends State<SignInScreen> {
         ),
         (route) => false,
       );
-    });
 
 
   } else {

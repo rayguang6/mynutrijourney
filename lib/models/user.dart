@@ -18,9 +18,9 @@ class User {
   static User fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
-    if (snapshot == null) {
-      throw Exception("User data is null");
-    }
+    // if (snapshot == null) {
+    //   throw Exception("User data is null");
+    // }
 
     List<String>? preference = [];
     if (snapshot["preference"] != null) {
