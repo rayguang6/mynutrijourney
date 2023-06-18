@@ -30,9 +30,9 @@ class _MobileScreenState extends State<MobileScreen> {
   
     // AddRecipeScreen(),
 
-    const RecipeScreen(),
     DashboardScreen(),
     const PlannerScreen(),
+    const RecipeScreen(),
     const CommunityScreen()
   ];
 

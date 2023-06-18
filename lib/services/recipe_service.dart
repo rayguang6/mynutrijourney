@@ -65,9 +65,9 @@ class RecipeService {
   Future<String> saveRecipe(String recipeId, String uid, List savedBy) async {
     String response = "Some error occurred";
 
-    print("recipeID: " + recipeId);
-    print("UID: " + uid);
-    print(savedBy.toString());
+    // print("recipeID: " + recipeId);
+    // print("UID: " + uid);
+    // print(savedBy.toString());
 
     try {
       if (savedBy.contains(uid)) {

@@ -58,7 +58,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               fit: BoxFit.cover,
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0), 
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -171,7 +171,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(ingredients),
-                  SizedBox(height: 100,),
+                  SizedBox(
+                    height: 100,
+                  ),
                 ],
               ),
             ),
@@ -198,8 +200,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   }
 
   void showPlannerDialog(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context, listen: false ).getUser;
-
+    final User user = Provider.of<UserProvider>(context, listen: false).getUser;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -272,6 +273,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   'mealType': selectedMealType,
                   'mealName': widget.recipe['title'],
                   'calories': widget.recipe['calories'],
+                  'fats': widget.recipe['fats'],
+                  'carbohydrates': widget.recipe['carbohydrates'],
+                  'proteins': widget.recipe['proteins'],
                   'imageUrl': widget.recipe['image'],
                   'recipeId': widget.recipe['recipeId'],
                   'date': selectedDate,

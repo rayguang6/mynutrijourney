@@ -26,7 +26,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
     );
   }
 
-  void viewRecipeDetail(Map<String, dynamic> recipe) {
+  void viewRecipeDetail(recipe) {
     Navigator.push(
       context,
       MaterialPageRoute(

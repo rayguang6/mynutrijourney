@@ -183,7 +183,7 @@ class _RecipeCardState extends State<RecipeCard> {
                                       width:
                                           4), // Adjust the spacing between the icon and text
                                   Text(
-                                    '${widget.recipe['calories']} kcal',
+                                    '${widget.recipe['calories']} cal',
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.black.withOpacity(0.7),
@@ -364,9 +364,12 @@ class _RecipeCardState extends State<RecipeCard> {
                     .doc(formattedDate)
                     .collection(formattedDate)
                     .add({
-                  'mealType': selectedMealType,
+                  'mealType': selectedMealType, 
                   'mealName': widget.recipe['title'],
                   'calories': widget.recipe['calories'],
+                  'fats': widget.recipe['fats'],
+                  'carbohydrates': widget.recipe['carbohydrates'],
+                  'proteins': widget.recipe['proteins'],
                   'imageUrl': widget.recipe['image'],
                   'recipeId': widget.recipe['recipeId'],
                   'date': selectedDate,
