@@ -33,11 +33,8 @@ class _ResponsiveScreenState extends State<ResponsiveScreen> {
 
 
   setUserData() async {
-    UserProvider _userProvider =
-        Provider.of<UserProvider>(context, listen: false);
-        
-    _userProvider.setUser();
-
+    UserProvider _userProvider = Provider.of<UserProvider>(context, listen: false);
+    await _userProvider.setUser();
     // Wait for the user data to be initialized
   }
 

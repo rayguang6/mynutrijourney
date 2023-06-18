@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mynutrijourney/screens/responsive/mobile_screen.dart';
 import 'package:mynutrijourney/screens/responsive/responsive_screen.dart';
@@ -8,6 +10,7 @@ import 'package:mynutrijourney/utils/constants.dart';
 import 'package:mynutrijourney/widgets/text_input.dart';
 import 'package:provider/provider.dart';
 
+import '../models/user.dart';
 import '../providers/user_provider.dart';
 import '../utils/utils.dart';
 
@@ -34,39 +37,48 @@ class SignInState extends State<SignInScreen> {
   }
 
   void signInUser() async {
-    setState(() {
-      _isLoading = true;
-    }); // first, show the loading indicator
+  setState(() {
+    _isLoading = true;
+  }); // first, show the loading indicator
 
-    String response = await AuthService().signIn(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
+  String response = await AuthService().signIn(
+    email: _emailController.text,
+    password: _passwordController.text,
+  );
 
-    if (response == "success") {
-      await Provider.of<UserProvider>(context, listen: false).setUser();
+  if (response == "success") {
+    await Provider.of<UserProvider>(context, listen: false).setUser();
+
+    User? user = Provider.of<UserProvider>(context, listen: false).getUser;
+
+    Timer(Duration(seconds: 0), () async {
+      print("#######################Delay Called from timer");
+      setState(() {
+        _isLoading = false;
+      });
 
       Navigator.pop(context);
 
-      Navigator.of(context).pushAndRemoveUntil(
+      // Delayed navigation after 10 seconds
+      await Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => const ResponsiveScreen(
             mobileScreen: MobileScreen(),
             webScreen: WebScreen(),
           ),
-        ),(route) => false);
-      // showSnackBar(context, response);
-      setState(() {
-        // Provider.of<UserProvider>(context, listen: false).setUser(); // trigger auth state change
-        _isLoading = false;
-      });
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
-      showSnackBar(context, response);
-    }
+        ),
+        (route) => false,
+      );
+    });
+
+
+  } else {
+    setState(() {
+      _isLoading = false;
+    });
+    showSnackBar(context, response);
   }
+}
 
   @override
   Widget build(BuildContext context) {

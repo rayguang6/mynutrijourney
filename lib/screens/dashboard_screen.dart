@@ -35,7 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     final User? user = Provider.of<UserProvider>(context).getUser;
 
-  print('Profile Image: ${user!.profileImage}'); // Add this line to print the profile image
+  // print('Profile Image: ${user!.profileImage}'); // Add this line to print the profile image
 
     return Scaffold(
       appBar: AppBar(

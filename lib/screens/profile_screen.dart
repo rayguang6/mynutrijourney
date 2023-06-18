@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mynutrijourney/screens/preference_detail.dart.dart';
 import 'package:mynutrijourney/screens/profile_detail.dart';
@@ -111,9 +113,9 @@ class PreferenceList extends StatelessWidget {
           subtitle: 'Change your perfonal details',
           onTap: () {
             Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (c) => ProfileDetailScreen()),
-              );
+              context,
+              MaterialPageRoute(builder: (c) => ProfileDetailScreen()),
+            );
           },
         ),
         PreferenceItem(
@@ -122,9 +124,9 @@ class PreferenceList extends StatelessWidget {
           subtitle: 'Change your preferences, allergies',
           onTap: () {
             Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (c) => PreferenceDetailScreen()),
-              );
+              context,
+              MaterialPageRoute(builder: (c) => PreferenceDetailScreen()),
+            );
           },
         ),
         PreferenceItem(
@@ -147,9 +149,6 @@ class PreferenceList extends StatelessWidget {
         InkWell(
           onTap: () {
             AuthService().signOut(context).then((value) async {
-              // await Provider.of<UserProvider>(context, listen: false).setUser();
-
-              Navigator.pop(context);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (c) => SignInScreen()),
@@ -157,7 +156,10 @@ class PreferenceList extends StatelessWidget {
             });
           },
           child: const ListTile(
-            leading: Icon(Icons.login_outlined, color: Colors.red,),
+            leading: Icon(
+              Icons.login_outlined,
+              color: Colors.red,
+            ),
             title: Text(
               'Log Out',
               style: TextStyle(

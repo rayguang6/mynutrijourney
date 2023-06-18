@@ -46,6 +46,10 @@ class AuthService {
     } catch (error) {
       return error.toString();
     }
+
+    // await Future.delayed(const Duration(seconds: 10), () {
+    //     print("Delay called from signIn()");
+    //   });
     return response;
   }
 
