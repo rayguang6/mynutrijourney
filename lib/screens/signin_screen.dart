@@ -13,7 +13,7 @@ import '../utils/utils.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
-  
+
   @override
   State<SignInScreen> createState() => SignInState();
 }
@@ -28,9 +28,9 @@ class SignInState extends State<SignInScreen> {
   //method to destroy the controller
   @override
   void dispose() {
+    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    super.dispose();
   }
 
   void signInUser() async {

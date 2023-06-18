@@ -39,6 +39,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // ErrorWidget.builder = (FlutterErrorDetails details) => Container(
+    //   child: Text("Suddenly!"),
+    // ); 
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -63,6 +67,8 @@ class MyApp extends StatelessWidget {
                 return Center(
                   child: Text('ERROR IN SNAPSHOT! : ${snapshot.error}'),
                 );
+              } else {
+                return SignInScreen();
               }
             }
 

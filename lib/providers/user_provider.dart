@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 
 import '../models/user.dart';
@@ -19,9 +20,22 @@ class UserProvider extends ChangeNotifier {
   Future<void> setUser() async {
     User user = await _authService.getUserInfo();
 
+    print("CALLED REFRESH USER");
     print(user.toJson());
 
     _user = user;
     notifyListeners();
   }
+
+  void clearUser() {
+  _user = null;
+  notifyListeners();
+}
+
+  // Future<void> retrieveUser() async {
+  //   // Load the user data from Firebase.
+  //   _user = await _authService.getUserInfo();
+  //   // Notify the listeners that the user data has been updated.
+  //   notifyListeners();
+  // }
 }

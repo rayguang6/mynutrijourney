@@ -1,28 +1,200 @@
 import 'package:flutter/material.dart';
+import 'package:mynutrijourney/screens/preference_detail.dart.dart';
+import 'package:mynutrijourney/screens/profile_detail.dart';
 import 'package:mynutrijourney/screens/signin_screen.dart';
-import 'package:mynutrijourney/services/auth_service.dart';
+import 'package:mynutrijourney/utils/constants.dart';
+import 'package:mynutrijourney/utils/utils.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user.dart';
+import '../providers/user_provider.dart';
+import '../services/auth_service.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Container(
-        child: ElevatedButton(
-            child: Text('Log Out'),
-            onPressed: () {
-              AuthService().signOut().then((value) {
-                //pop the profile screen
-                Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (c) => SignInScreen()),
-                );
-              });
-            }),
-      )),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        backgroundColor: kPrimaryGreen,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Settings',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ProfileCard(),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Preferences',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            PreferenceList(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final User? user = Provider.of<UserProvider>(context).getUser;
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 40,
+              backgroundImage: NetworkImage(
+                user!.profileImage,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.username,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  user.email,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PreferenceList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        PreferenceItem(
+          icon: Icons.account_circle,
+          title: 'Profile Information',
+          subtitle: 'Change your perfonal details',
+          onTap: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (c) => ProfileDetailScreen()),
+              );
+          },
+        ),
+        PreferenceItem(
+          icon: Icons.restaurant,
+          title: 'Preferences',
+          subtitle: 'Change your preferences, allergies',
+          onTap: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (c) => PreferenceDetailScreen()),
+              );
+          },
+        ),
+        PreferenceItem(
+          icon: Icons.notifications,
+          title: 'Notifications',
+          subtitle: 'Configure notification settings',
+          onTap: () {
+            // Handle notifications preference tap
+            showSnackBar(context, ' "Notification" Well Be Developed Later');
+          },
+        ),
+        PreferenceItem(
+          icon: Icons.notifications,
+          title: 'Notifications',
+          subtitle: 'Configure notification settings',
+          onTap: () {
+            // Handle notifications preference tap
+          },
+        ),
+        InkWell(
+          onTap: () {
+            AuthService().signOut(context).then((value) async {
+              // await Provider.of<UserProvider>(context, listen: false).setUser();
+
+              Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (c) => SignInScreen()),
+              );
+            });
+          },
+          child: const ListTile(
+            leading: Icon(Icons.login_outlined, color: Colors.red,),
+            title: Text(
+              'Log Out',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PreferenceItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const PreferenceItem({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: Icon(Icons.chevron_right),
+      onTap: onTap,
     );
   }
 }

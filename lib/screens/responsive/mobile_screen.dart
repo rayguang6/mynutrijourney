@@ -48,12 +48,12 @@ class _MobileScreenState extends State<MobileScreen> {
       return Scaffold(
         appBar: AppBar(
         ),
-        body: Center(
+        body: const Center(
           child: CircularProgressIndicator(),
         ),
       );
     }
-    
+
     return Scaffold(
       // appBar: AppBar(
       //   elevation: 0,

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:mynutrijourney/utils/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,8 @@ class AuthService {
     User loggedInUser = _firebaseauth.currentUser!;
 
     //getting firebase user as a snapshot
-    DocumentSnapshot documentSnapshot = await _firestore.collection('users').doc(loggedInUser.email).get();
+    DocumentSnapshot documentSnapshot =
+        await _firestore.collection('users').doc(loggedInUser.email).get();
 
     // converting the snapshot to Dart model using the function inside User Model class
     return model.User.fromSnap(documentSnapshot);
@@ -84,7 +86,6 @@ class AuthService {
             .doc(userCredential.user!.email)
             .set(_user.toJson());
 
-
         response = "success";
       } else {
         response = "Please Enter all the fields";
@@ -95,7 +96,8 @@ class AuthService {
     return response;
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     await _firebaseauth.signOut();
+    Provider.of<UserProvider>(context, listen: false).clearUser();
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
@@ -6,23 +5,34 @@ class User {
   final String username;
   final String email;
   final String profileImage;
+  List<String>? preference;
 
-  const User(
-      {
-      required this.uid,
-      required this.username,
-      required this.email,
-      required this.profileImage,
+  User({
+    required this.uid,
+    required this.username,
+    required this.email,
+    required this.profileImage,
+    this.preference,
   });
 
   static User fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
+
+    if (snapshot == null) {
+      throw Exception("User data is null");
+    }
+
+    List<String>? preference = [];
+    if (snapshot["preference"] != null) {
+      preference = List<String>.from(snapshot["preference"]);
+    }
 
     return User(
       uid: snapshot["uid"],
       username: snapshot["username"],
       email: snapshot["email"],
       profileImage: snapshot["profileImage"],
+      preference: preference,
     );
   }
 
@@ -31,5 +41,6 @@ class User {
         "username": username,
         "email": email,
         "profileImage": profileImage,
+        "preference": preference ?? [],
       };
 }
