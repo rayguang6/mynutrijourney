@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mynutrijourney/services/recipe_service.dart';
 
 import '../../utils/constants.dart';
+import '../../utils/numeric_input_formatter.dart';
 import '../../utils/utils.dart';
 
 class EditRecipeScreen extends StatefulWidget {
@@ -165,12 +166,12 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                         border: Border.all(color: Colors.grey[300]!),
                       ),
                       child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Image.network(
-                                widget.recipe["image"],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.network(
+                          widget.recipe["image"],
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -208,6 +209,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                           child: TextFormField(
                             controller: timeController,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
                             decoration: const InputDecoration(
                               labelText: 'Time (Minutes)',
                               border: OutlineInputBorder(),
@@ -225,6 +227,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                           child: TextFormField(
                             controller: caloriesController,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
                             decoration: const InputDecoration(
                               labelText: 'Calories',
                               border: OutlineInputBorder(),
@@ -246,6 +249,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                           child: TextFormField(
                             controller: fatsController,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
                             decoration: const InputDecoration(
                               labelText: 'Fats',
                               border: OutlineInputBorder(),
@@ -263,6 +267,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                           child: TextFormField(
                             controller: proteinsController,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
                             decoration: const InputDecoration(
                               labelText: 'Proteins',
                               border: OutlineInputBorder(),
@@ -281,6 +286,7 @@ class _EditRecipeScreenState extends State<EditRecipeScreen> {
                     TextFormField(
                       controller: carbohydratesController,
                       keyboardType: TextInputType.number,
+                      inputFormatters: [NumericInputFormatter()],
                       decoration: const InputDecoration(
                         labelText: 'Carbohydrates',
                         border: OutlineInputBorder(),

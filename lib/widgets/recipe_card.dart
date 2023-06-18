@@ -31,69 +31,68 @@ class _RecipeCardState extends State<RecipeCard> {
 
   _editRecipe() {
     Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => EditRecipeScreen(recipe: widget.recipe),
-    ),
-  );
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditRecipeScreen(recipe: widget.recipe),
+      ),
+    );
   }
 
   _deleteRecipe() async {
     String recipeId = widget.recipe["recipeId"];
 
     try {
-      String response =  await RecipeService().deleteRecipe(recipeId);
-      if(response=="success"){
+      String response = await RecipeService().deleteRecipe(recipeId);
+      if (response == "success") {
         showSnackBar(context, "Deleted Successful");
-      }else{
+      } else {
         showSnackBar(context, response);
       }
-
     } catch (error) {
       showSnackBar(context, error.toString());
     }
   }
 
   void _confirmDeleteRecipe() {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: Text('Confirm Delete'),
-        content: Text('Are you sure you want to delete the Recipe "${widget.recipe['title']}"?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
-            },
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              _deleteRecipe();
-              Navigator.of(context).pop(); // Close the dialog
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text(
+              'Are you sure you want to delete the Recipe "${widget.recipe['title']}"?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
               child: Text(
-                'Delete',
-                style: TextStyle(color: Colors.white),
+                'Cancel',
+                style: TextStyle(color: Colors.grey),
               ),
             ),
-          ),
-        ],
-      );
-    },
-  );
-}
-
+            TextButton(
+              onPressed: () {
+                _deleteRecipe();
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,130 +100,195 @@ class _RecipeCardState extends State<RecipeCard> {
 
     return GestureDetector(
       onTap: widget.onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+      child: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.network(
-                widget.recipe['image'].toString(),
-                height: 150,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.recipe['title'].toString(),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.network(
+                    widget.recipe['image'].toString(),
+                    height: 150,
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    widget.recipe['description'].toString(),
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: kBlack.withOpacity(0.7),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Time: ${widget.recipe['time']} min',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: kBlack.withOpacity(0.7),
-                        ),
-                      ),
-                      Text(
-                        'Calories: ${widget.recipe['calories']} kcal',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: kBlack.withOpacity(0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          showPlannerDialog(context);
-                        },
-                        child: const Text('Add to Planner'),
-                      ),
-                      IconButton(
-                        icon: widget.recipe['savedBy'].contains(user.uid)
-                            ? const Icon(
-                                Icons.bookmark,
-                                color: kPrimaryGreen,
-                              )
-                            : const Icon(
-                                Icons.bookmark_outline,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.purple, width: 1.0),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Text(
+                              "Japan",
+                              style: TextStyle(color: Colors.purple),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.access_time_filled,
+                                    size: 24,
+                                    color: Colors.amber,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          4), // Adjust the spacing between the icon and text
+                                  Text(
+                                    '${widget.recipe['time']} min',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black.withOpacity(0.7),
+                                    ),
+                                  ),
+                                ],
                               ),
-                        onPressed: () => RecipeService()
-                            .saveRecipe(
-                              widget.recipe['recipeId'].toString(),
-                              user.uid,
-                              widget.recipe['savedBy'],
-                            )
-                            .then(
-                                (response) => showSnackBar(context, response)),
+                              SizedBox(
+                                width: 16,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.local_fire_department,
+                                    size: 24,
+                                    color: Colors.red,
+                                  ),
+                                  SizedBox(
+                                      width:
+                                          4), // Adjust the spacing between the icon and text
+                                  Text(
+                                    '${widget.recipe['calories']} kcal',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black.withOpacity(0.7),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      
-                      //conditional display the 3 dots for delete and update
-                      if (widget.recipe['uid'].toString() == user!.uid)
-                        PopupMenuButton<String>(
-                          itemBuilder: (context) => [
-                            PopupMenuItem<String>(
-                              value: 'edit',
-                              child: Text('Edit'),
-                            ),
-                            PopupMenuItem<String>(
-                              value: 'delete',
-                              child: Text('Delete'),
-                            ),
-                          ],
-                          onSelected: (value) {
-                            if (value == 'edit') {
-                              // Handle Edit
-                              _editRecipe();
-                            } else if (value == 'delete') {
-                              // Handle Delete
-                              _confirmDeleteRecipe();
-                            }
-                          },
-                          icon: Icon(Icons.more_vert),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        widget.recipe['title'].toString(),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: kPrimaryGreen,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                  horizontal:
+                                      16.0), // Adjust the padding as needed
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4.0),
+                              ),
+                            ),
+                            onPressed: () {
+                              showPlannerDialog(context);
+                            },
+                            child: const Text('Add to Planner'),
+                          ),
+                          IconButton(
+                            icon: widget.recipe['savedBy'].contains(user.uid)
+                                ? const Icon(
+                                    Icons.bookmark,
+                                    color: kPrimaryGreen,
+                                  )
+                                : const Icon(
+                                    Icons.bookmark_outline,
+                                  ),
+                            onPressed: () => RecipeService()
+                                .saveRecipe(
+                                  widget.recipe['recipeId'].toString(),
+                                  user.uid,
+                                  widget.recipe['savedBy'],
+                                )
+                                .then(
+                                  (response) => showSnackBar(context, response),
+                                ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          if (widget.recipe['uid'].toString() == user!.uid)
+            Positioned(
+              top: 6,
+              right: 6,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.black.withOpacity(0.4),
+                ),
+                child: PopupMenuButton<String>(
+                  itemBuilder: (context) => [
+                    PopupMenuItem<String>(
+                      value: 'edit',
+                      child: Text('Edit'),
+                    ),
+                    PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Text('Delete'),
+                    ),
+                  ],
+                  onSelected: (value) {
+                    if (value == 'edit') {
+                      // Handle Edit
+                      _editRecipe();
+                    } else if (value == 'delete') {
+                      // Handle Delete
+                      _confirmDeleteRecipe();
+                    }
+                  },
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

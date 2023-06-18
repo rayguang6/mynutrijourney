@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../providers/user_provider.dart';
 import '../../services/recipe_service.dart';
 import '../../utils/constants.dart';
+import '../../utils/numeric_input_formatter.dart';
 
 class AddRecipeScreen extends StatefulWidget {
   const AddRecipeScreen({Key? key}) : super(key: key);
@@ -308,7 +309,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: timeController,
-                            keyboardType:   TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
+                            keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               labelText: 'Time (minutes)',
                               border: OutlineInputBorder(),
@@ -325,7 +327,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: caloriesController,
-                            keyboardType:   TextInputType.number,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
                             decoration: const InputDecoration(
                               labelText: 'Calories',
                               border: OutlineInputBorder(),
@@ -346,7 +349,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: fatsController,
-                            keyboardType:   TextInputType.number,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
                             decoration: const InputDecoration(
                               labelText: 'Fats',
                               border: OutlineInputBorder(),
@@ -363,7 +367,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                         Expanded(
                           child: TextFormField(
                             controller: proteinsController,
-                            keyboardType:   TextInputType.number,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [NumericInputFormatter()],
                             decoration: const InputDecoration(
                               labelText: 'Proteins',
                               border: OutlineInputBorder(),
@@ -381,7 +386,8 @@ class _AddRecipeScreenState extends State<AddRecipeScreen> {
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: carbohydratesController,
-                      keyboardType:   TextInputType.number,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [NumericInputFormatter()],
                       decoration: const InputDecoration(
                         labelText: 'Carbohydrates',
                         border: OutlineInputBorder(),
