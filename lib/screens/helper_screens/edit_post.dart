@@ -33,7 +33,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     _initialImageLink = widget.post['postUrl'];
   }
 
-  //function to create post
+  //function to update post
   void editPost() async {
     setState(() {
       isLoading = true;

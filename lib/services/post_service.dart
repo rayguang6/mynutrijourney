@@ -4,11 +4,12 @@ import 'package:uuid/uuid.dart';
 
 import '../models/post.dart';
 
-class PostService{
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class PostService {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 //function to create post into database
-  Future<String> createPost(title, content, _image, uid, username, profileImage) async {
+  Future<String> createPost(
+      title, content, _image, uid, username, profileImage) async {
     // String profileImage =
     //     await StorageMethods().uploadImageToStorage('posts', file, true);
     String res = "";
@@ -28,10 +29,9 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
         datePublished: DateTime.now(),
         postId: postId,
         postUrl: postImageLink,
-        profileImage :profileImage,
+        profileImage: profileImage,
       );
 
-      
       _firestore.collection('posts').doc(postId).set(post.toJson());
       res = "success";
     } catch (err) {
@@ -41,9 +41,8 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     return res;
   }
 
-  //update post 
+  //update post
   Future<String> updatePost(postId, title, content) async {
-
     String res = "";
 
     try {
@@ -60,8 +59,6 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     return res;
   }
 
-
-
   Future<String> deletePost(String postId) async {
     String res = "error deleting post";
     try {
@@ -72,5 +69,4 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     }
     return res;
   }
-
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynutrijourney/screens/helper_screens/add_post.dart';
+import 'package:mynutrijourney/screens/helper_screens/add_recipe.dart';
 import 'package:mynutrijourney/screens/helper_screens/preference_screen.dart';
 import 'package:mynutrijourney/screens/helper_screens/weight_height.dart';
 import 'package:mynutrijourney/screens/profile_screen.dart';
@@ -26,12 +27,12 @@ class _MobileScreenState extends State<MobileScreen> {
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
-    //  WeightHeightScreen(),
-    //  PreferenceScreen(),
-    // AddPostScreen(),
+  
+    // AddRecipeScreen(),
+
+    const RecipeScreen(),
     DashboardScreen(),
     const PlannerScreen(),
-    const RecipeScreen(),
     const CommunityScreen()
   ];
 

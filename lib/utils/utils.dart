@@ -13,6 +13,7 @@ final FirebaseStorage _firebasestorage = FirebaseStorage.instance;
 
 // for displaying snackbars (popup)
 void showSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
