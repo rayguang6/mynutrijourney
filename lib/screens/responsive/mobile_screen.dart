@@ -29,11 +29,11 @@ class _MobileScreenState extends State<MobileScreen> {
   List<Widget> pages = [
   
     // AddRecipeScreen(),
-
-    const CommunityScreen(),
-    DashboardScreen(),
+ 
     const PlannerScreen(),
+    DashboardScreen(),
     const RecipeScreen(),
+    const CommunityScreen(),
   ];
 
   void updatePage(int page) {

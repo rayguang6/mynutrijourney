@@ -1,12 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mynutrijourney/screens/recipe_screen.dart';
+import 'package:mynutrijourney/screens/responsive/mobile_screen.dart';
 import 'package:mynutrijourney/utils/constants.dart';
 import 'package:mynutrijourney/utils/utils.dart';
 import 'package:provider/provider.dart';
 
+import 'dart:math';
+
+import 'package:d_chart/d_chart.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
 import '../models/user.dart';
 import '../providers/user_provider.dart';
+import '../widgets/progress_chart_painter.dart';
 
 class PlannerScreen extends StatefulWidget {
   const PlannerScreen({super.key});
@@ -254,11 +262,12 @@ class _PlannerScreenState extends State<PlannerScreen> {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    child: Text("No Meal Found, ADD MEAL NOW"),
+                    child: Text("No Meal Found, ADD MEAL to see your progress! "),
                   ),
                 );
               }
 
+              num targetCalories = 10000; // temp
               num totalCalories = 0;
               num totalCarbs = 0;
               num totalProteins = 0;
@@ -299,11 +308,115 @@ class _PlannerScreenState extends State<PlannerScreen> {
 
               return Column(
                 children: [
-                  const SizedBox(height: 10.0), 
-                  Text('Total Calories: $totalCalories'),
-                  Text('Total Carbs: $totalCarbs'),
-                  Text('Total Proteins: $totalProteins'),
-                  Text('Total Fats: $totalFats'),
+                  // Container(
+                  //   width: 100,
+                  //   height: 100,
+                  //   child: DChartPie(
+                  //     data: [
+                  //       {'domain': 'Flutter', 'measure': 28},
+                  //       {'domain': 'React Native', 'measure': 27},
+                  //       {'domain': 'Ionic', 'measure': 20},
+                  //       {'domain': 'Cordova', 'measure': 15},
+                  //     ],
+                  //     fillColor: (pieData, index) => Colors.purple,
+                  //   ),
+                  // ),
+
+                  // Container(
+                  //   width: 200,
+                  //   height: 200,
+                  //   decoration: BoxDecoration(
+                  //     shape: BoxShape.circle,
+                  //     color: Colors.grey[300],
+                  //   ),
+                  //   child: CustomPaint(
+                  //     painter: ProgressChartPainter(
+                  //       targetPercentage: 80,
+                  //       currentPercentage: 60,
+                  //       strokeWidth: 10,
+                  //       progressColor: Colors.red,
+                  //     ),
+                  //   ),
+                  // ),
+                  Text("Your Progress Today"),
+
+                  Text("$totalCalories / $targetCalories cal"),
+                  Container(
+                    width: 200,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: Colors.grey[300],
+                    ),
+                    child: FractionallySizedBox(
+                      alignment: Alignment.centerLeft,
+                      widthFactor: totalCalories / targetCalories,
+                      // 0.85, // Change this value to represent the progress
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          color: Colors.blue[300],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Row(
+                    children: [
+                      Container(
+                        height: 150, // Adjust the height as needed
+                        width: 150, // Adjust the width as needed
+                        child: SfCircularChart(
+                          series: <CircularSeries>[
+                            PieSeries<dynamic, String>(
+                              dataSource: [
+                                {'macro': 'Carbs', 'value': totalCarbs},
+                                {'macro': 'Proteins', 'value': totalProteins},
+                                {'macro': 'Fats', 'value': totalFats},
+                              ],
+                              xValueMapper: (dynamic data, _) => data['macro'],
+                              yValueMapper: (dynamic data, _) => data['value'],
+                              dataLabelSettings: DataLabelSettings(
+                                isVisible: true,
+                                labelPosition: ChartDataLabelPosition.inside,
+                                textStyle: TextStyle(
+                                  fontSize: 8,
+                                  color: kWhite,
+                                ),
+                              ),
+                              pointColorMapper: (dynamic data, _) {
+                                switch (data['macro']) {
+                                  case 'Carbs':
+                                    return Colors.orange;
+                                  case 'Proteins':
+                                    return Colors.green;
+                                  case 'Fats':
+                                    return Colors.blue;
+                                  default:
+                                    return Colors.grey;
+                                }
+                              },
+                              dataLabelMapper: (dynamic data, _) =>
+                                  '${data['macro']} \n${data['value']}g',
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Total Calories: $totalCalories',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          ),
+                          Text('Total Carbs: $totalCarbs g'),
+                          Text('Total Proteins: $totalProteins g'),
+                          Text('Total Fats: $totalFats g'),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               );
             },
@@ -339,7 +452,11 @@ class _PlannerScreenState extends State<PlannerScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Implement your logic to add a plan
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => const RecipeScreen()),
+                  // );
                 },
                 child: const Text('Add Plan'),
               ),
@@ -408,10 +525,15 @@ class _PlannerScreenState extends State<PlannerScreen> {
 
               return Column(
                 children: [
-                  Text('Total Calories: $totalCalories'),
-                  Text('Total Carbs: $totalCarbs'),
-                  Text('Total Proteins: $totalProteins'),
-                  Text('Total Fats: $totalFats'),
+                  Text(
+                    '$mealType Calories :  $totalCalories',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  // Text('Total Carbs: $totalCarbs'),
+                  // Text('Total Proteins: $totalProteins'),
+                  // Text('Total Fats: $totalFats'),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -448,18 +570,18 @@ class _PlannerScreenState extends State<PlannerScreen> {
               '${meal['calories']} cal',
               style: const TextStyle(fontSize: 16.0),
             ),
-            Text(
-              'Carbs: ${meal['carbohydrates']} g',
-              style: const TextStyle(fontSize: 16.0),
-            ),
-            Text(
-              'Proteins: ${meal['proteins']} g',
-              style: const TextStyle(fontSize: 16.0),
-            ),
-            Text(
-              'Fats: ${meal['fats']} g',
-              style: const TextStyle(fontSize: 16.0),
-            ),
+            // Text(
+            //   'Carbs: ${meal['carbohydrates']} g',
+            //   style: const TextStyle(fontSize: 16.0),
+            // ),
+            // Text(
+            //   'Proteins: ${meal['proteins']} g',
+            //   style: const TextStyle(fontSize: 16.0),
+            // ),
+            // Text(
+            //   'Fats: ${meal['fats']} g',
+            //   style: const TextStyle(fontSize: 16.0),
+            // ),
           ],
         ),
         leading: Image.network(

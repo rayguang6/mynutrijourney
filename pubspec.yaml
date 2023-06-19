@@ -45,6 +45,9 @@ dependencies:
   image_picker: ^0.8.9
   syncfusion_flutter_charts: ^21.2.10
   syncfusion_flutter_gauges: ^21.2.10
+  fl_chart: ^0.63.0
+  pie_chart: ^5.3.2
+  d_chart: ^2.2.11
 
 dev_dependencies:
   flutter_test:

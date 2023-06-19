@@ -466,9 +466,15 @@ class _PostCardState extends State<PostCard> {
 
     switch (tag) {
       case "Sharing":
-        return Colors.blue;
-      case "Tips & Tricks":
+        return Colors.purple.shade500;
+      case "Questions":
         return Colors.amber;
+      case "Recipe":
+        return Colors.pink;
+      case "Tips & Tricks":
+        return Colors.lightGreen;
+      case "Experience":
+        return Colors.cyan;
       default:
         return Colors.green;
     }
