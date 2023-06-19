@@ -91,7 +91,7 @@ class RecipeService {
   }
 
   Future<String> deleteRecipe(String recipeId) async {
-    String res = "error deleting post";
+    String res = "error deleting recipe";
     try {
       await firestore.collection('recipes').doc(recipeId).delete();
       res = 'success';

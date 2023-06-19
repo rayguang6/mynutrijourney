@@ -114,7 +114,7 @@ class PreferenceList extends StatelessWidget {
           onTap: () {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (c) => ProfileDetailScreen()),
+              MaterialPageRoute(builder: (c) => ProfileDetailScreen(title: 'he',)),
             );
           },
         ),

@@ -18,19 +18,33 @@ class CommunityScreen extends StatefulWidget {
 }
 
 class _CommunityScreenState extends State<CommunityScreen> {
-
+  List<String> availableTags = [
+    "All",
+    "Sharing",
+    "Questions",
+    "Recipe",
+    "Tips & Tricks",
+    "Experience"
+  ];
+  String selectedTag = 'All'; // Initially selected tag is 'All'
 
   @override
   void dispose() {
     super.dispose();
   }
 
-  
+  void _filterPostsByTag(String tag) {
+    setState(() {
+      selectedTag = tag;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final User? user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
+      backgroundColor: Colors.green.shade50,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -57,41 +71,85 @@ class _CommunityScreenState extends State<CommunityScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-          label: Text("Create Post"),
-          backgroundColor: kPrimaryGreen,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddPostScreen()),
-            );
-          },
-          icon: const Icon(Icons.add),
-        ),
-      
+        label: Text("Create Post"),
+        backgroundColor: kPrimaryGreen,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddPostScreen()),
+          );
+        },
+        icon: const Icon(Icons.add),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('posts')
-              .orderBy('datePublished', descending: true)
-              .snapshots(),
-          builder: (context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: (ctx, index) => Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: PostCard(
-                  snap: snapshot.data!.docs[index].data(),
+        child: Column(
+          children: [
+            Wrap(
+              spacing: 8,
+              children: List<Widget>.generate(availableTags.length, (index) {
+                final tag = availableTags[index];
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedTag = tag; // Update the selected tag
+                    });
+                  },
+                  child: Chip(
+                    label: Text(tag),
+                    backgroundColor:
+                        selectedTag == tag ? kPrimaryGreen : kWhite,
+                    labelStyle: TextStyle(
+                        color:
+                            selectedTag == tag ? Colors.white : kPrimaryGreen),
+                  ),
+                );
+              }),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('posts')
+                          .where('tag',
+                              isEqualTo:
+                                  selectedTag != 'All' ? selectedTag : null)
+                          .orderBy('datePublished', descending: true)
+                          .snapshots(),
+                      builder: (context,
+                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                              snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        if (snapshot.data!.docs.length == 0) {
+                          return Center(child: Text('No Post Found with this tag'));  
+                        }
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (ctx, index) => Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: PostCard(
+                              post: snapshot.data!.docs[index].data(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );

@@ -10,36 +10,38 @@ class Post {
   final DateTime datePublished;
   final String postUrl;
   final String profileImage;
+  final String tag;
 
-  const Post(
-      {required this.content,
-      required this.title,
-      required this.uid,
-      required this.username,
-      required this.likes,
-      this.postId,
-      required this.datePublished,
-      required this.postUrl,
-      required this.profileImage,
-      });
+  const Post({
+    required this.content,
+    required this.title,
+    required this.uid,
+    required this.username,
+    required this.likes,
+    this.postId,
+    required this.datePublished,
+    required this.postUrl,
+    required this.profileImage,
+    required this.tag,
+  });
 
   static Post fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return Post(
-      title: snapshot["title"],
-      content: snapshot["content"],
-      uid: snapshot["uid"],
-      likes: snapshot["likes"],
-      postId: snapshot["postId"],
-      datePublished: snapshot["datePublished"],
-      username: snapshot["username"],
-      postUrl: snapshot['postUrl'],
-      profileImage: snapshot['profileImage']
-    );
+        title: snapshot["title"],
+        content: snapshot["content"],
+        uid: snapshot["uid"],
+        likes: snapshot["likes"],
+        postId: snapshot["postId"],
+        datePublished: snapshot["datePublished"],
+        username: snapshot["username"],
+        postUrl: snapshot['postUrl'],
+        tag: snapshot['tag'],
+        profileImage: snapshot['profileImage']);
   }
 
-   Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "title": title,
         "content": content,
         "uid": uid,
@@ -48,6 +50,7 @@ class Post {
         "postId": postId,
         "datePublished": datePublished,
         'postUrl': postUrl,
-        'profileImage': profileImage
+        'profileImage': profileImage,
+        'tag': tag,
       };
 }

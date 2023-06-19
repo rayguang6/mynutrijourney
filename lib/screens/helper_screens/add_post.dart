@@ -18,6 +18,9 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
+  List<String> postType = [ "Sharing","Questions", "Recipe", "Tips & Tricks", "Experience"];
+  String selectedPostType = "Sharing";
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -53,7 +56,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     String profileImage = userProvider.getUser!.profileImage;
 
 
-    String imgPath = 'assets/images/vertical_logo.png';
+    String imgPath = 'assets/images/default-post.png';
     final ByteData bytes = await rootBundle.load(imgPath);
     final Uint8List defaultPostImage = bytes.buffer.asUint8List();
 
@@ -65,7 +68,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
     try {
       String res = await PostService()
-          .createPost(title, content, _image ?? defaultPostImage, uid, username, profileImage);
+          .createPost(title, content, _image ?? defaultPostImage, uid, username, profileImage, selectedPostType);
 
       if (res == "success") {
         setState(() {
@@ -281,6 +284,26 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 16.0),
+                    ListTile(
+                    title: const Text('Post Type'),
+                    trailing: DropdownButton<String>(
+                      value: selectedPostType,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            selectedPostType = newValue;
+                          });
+                        }
+                      },
+                      items: postType.map((String mealType) {
+                        return DropdownMenuItem<String>(
+                          value: mealType,
+                          child: Text(mealType),
+                        );
+                      }).toList(),
+                    ),
+                  ),
                     SizedBox(height: 16.0),
                     Container(
                       width: double.infinity,

@@ -117,12 +117,12 @@ class _RecipeCardState extends State<RecipeCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ClipRRect(
+                ClipRRect( 
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(16)),
                   child: Image.network(
                     widget.recipe['image'].toString(),
-                    height: 150,
+                    height: 150.0,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -131,7 +131,7 @@ class _RecipeCardState extends State<RecipeCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Row( 
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(

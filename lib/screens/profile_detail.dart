@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 
-import '../utils/constants.dart';
+
+DateTime scheduleTime = DateTime.now();
 
 class ProfileDetailScreen extends StatefulWidget {
-  const ProfileDetailScreen({super.key});
+  const ProfileDetailScreen({super.key, required this.title});
+
+  final String title;
 
   @override
-  State<ProfileDetailScreen> createState() => ProfileDetailScreenState();
+  State<ProfileDetailScreen> createState() => _ProfileDetailScreenState();
 }
 
-class ProfileDetailScreenState extends State<ProfileDetailScreen> {
+class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: kPrimaryGreen,
+        title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
-        child: Column(children: [
-          Text('Profile Detail')
-        ]),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text("EOEELE"),
+          ],
+        ),
       ),
     );
   }

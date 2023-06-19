@@ -9,7 +9,7 @@ class Recipe {
   final double fats;
   final double proteins;
   final double carbohydrates;
-  final int time;
+  final int time; 
   final String uid;
   final String createdBy;
   final String ingredients;
