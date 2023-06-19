@@ -210,7 +210,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
   Widget _buildCommentContainer() {
     return Container(  
-      width: 350,
+      width: double.infinity, 
       decoration: BoxDecoration(
         color: kWhite,
         // border: Border.all(color: kLightGreen),
@@ -227,7 +227,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
               Text(
                 "Comments",
                 style: const TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   color: kBlack,
                 ),
@@ -253,7 +253,8 @@ class _CommentsScreenState extends State<CommentsScreen> {
 
               return ListView.builder(
                 shrinkWrap: true,
-                itemCount: snapshot.data!.docs.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: snapshot.data!.docs.length, 
                 itemBuilder: (ctx, index) => CommentCard(
                   snap: snapshot.data!.docs[index],
                 ),
@@ -265,3 +266,4 @@ class _CommentsScreenState extends State<CommentsScreen> {
     );
   }
 }
+

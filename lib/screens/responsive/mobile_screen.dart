@@ -3,6 +3,7 @@ import 'package:mynutrijourney/screens/helper_screens/add_post.dart';
 import 'package:mynutrijourney/screens/helper_screens/add_recipe.dart';
 import 'package:mynutrijourney/screens/helper_screens/preference_screen.dart';
 import 'package:mynutrijourney/screens/helper_screens/weight_height.dart';
+import 'package:mynutrijourney/screens/notification_screen.dart';
 import 'package:mynutrijourney/screens/profile_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +28,9 @@ class _MobileScreenState extends State<MobileScreen> {
   double bottomBarBorderWidth = 5;
 
   List<Widget> pages = [
-  
-    // AddRecipeScreen(),
- 
-    const PlannerScreen(),
+    // NotificationScreen(),
     DashboardScreen(),
+    const PlannerScreen(), 
     const RecipeScreen(),
     const CommunityScreen(),
   ];
@@ -45,12 +44,11 @@ class _MobileScreenState extends State<MobileScreen> {
   @override
   Widget build(BuildContext context) {
     final User? user = Provider.of<UserProvider>(context).getUser;
-    
-    if (user == null || user.uid.isEmpty ) {
+
+    if (user == null || user.uid.isEmpty) {
       // User data is not available yet, display a loading indicator or handle the null case
       return Scaffold(
-        appBar: AppBar(
-        ),
+        appBar: AppBar(),
         body: const Center(
           child: CircularProgressIndicator(),
         ),
@@ -81,7 +79,7 @@ class _MobileScreenState extends State<MobileScreen> {
       //       ),
       //     ),
       //   ],
-        
+
       // ),
 
       body: pages[_page],
@@ -108,9 +106,6 @@ class _MobileScreenState extends State<MobileScreen> {
   BottomNavigationBarItem _buildBottomNavigationBarItem(
       int pageNumber, IconData icon, String label) {
     return BottomNavigationBarItem(
-        icon: SizedBox(
-            width: bottomBarWidth,
-            child: Icon(icon)),
-        label: label);
+        icon: SizedBox(width: bottomBarWidth, child: Icon(icon)), label: label);
   }
 }

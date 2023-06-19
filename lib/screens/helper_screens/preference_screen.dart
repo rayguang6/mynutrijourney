@@ -85,7 +85,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
                     final userDocRef = FirebaseFirestore.instance
                         .collection('users')
                         .doc(user?.email);
-                        
+
                     // print("curr sett pref   " + user.email);
 
                     await userDocRef.update({

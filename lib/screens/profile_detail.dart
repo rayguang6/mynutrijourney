@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:mynutrijourney/utils/constants.dart';
 
 DateTime scheduleTime = DateTime.now();
 
 class ProfileDetailScreen extends StatefulWidget {
-  const ProfileDetailScreen({super.key, required this.title});
-
-  final String title;
+  const ProfileDetailScreen({
+    super.key,
+  });
 
   @override
   State<ProfileDetailScreen> createState() => _ProfileDetailScreenState();
@@ -17,13 +17,16 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Profile'),
+        backgroundColor: kPrimaryGreen,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text("EOEELE"),
+          children: [
+            Text("Name"),
+            Text("Email"),
+            Text(""),
           ],
         ),
       ),

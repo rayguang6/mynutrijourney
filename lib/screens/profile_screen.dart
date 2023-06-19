@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mynutrijourney/screens/notification_screen.dart';
 import 'package:mynutrijourney/screens/preference_detail.dart.dart';
 import 'package:mynutrijourney/screens/profile_detail.dart';
 import 'package:mynutrijourney/screens/signin_screen.dart';
@@ -112,10 +113,11 @@ class PreferenceList extends StatelessWidget {
           title: 'Profile Information',
           subtitle: 'Change your perfonal details',
           onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (c) => ProfileDetailScreen(title: 'hello',)),
-            );
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (c) => ProfileDetailScreen(),
+                ));
           },
         ),
         PreferenceItem(
@@ -123,7 +125,7 @@ class PreferenceList extends StatelessWidget {
           title: 'Preferences',
           subtitle: 'Change your preferences, allergies',
           onTap: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(builder: (c) => PreferenceDetailScreen()),
             );
@@ -132,16 +134,20 @@ class PreferenceList extends StatelessWidget {
         PreferenceItem(
           icon: Icons.notifications,
           title: 'Notifications',
-          subtitle: 'Configure notification settings',
+          subtitle: 'Customize notification settings',
           onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (c) => NotificationScreen()),
+            );
             // Handle notifications preference tap
-            showSnackBar(context, ' "Notification" Well Be Developed Later');
+            // showSnackBar(context, ' "Notification" Well Be Developed Later');
           },
         ),
         PreferenceItem(
-          icon: Icons.notifications,
-          title: 'Notifications',
-          subtitle: 'Configure notification settings',
+          icon: Icons.settings, 
+          title: 'Settings',
+          subtitle: 'Configure your app settings',
           onTap: () {
             // Handle notifications preference tap
           },
@@ -149,7 +155,7 @@ class PreferenceList extends StatelessWidget {
         InkWell(
           onTap: () {
             AuthService().signOut(context).then((value) async {
-              Navigator.pushReplacement(
+              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (c) => SignInScreen()),
               );
